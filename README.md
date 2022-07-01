@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Volkswagen Nepal chatbot Application UI Admin 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [CRA](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
