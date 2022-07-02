@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://vwnepal-backend.herokuapp.com/auth"
+const API_URL = "https://vwnepal-backend.herokuapp.com/auth/"
 // const API_URL = "http://localhost:3600/auth/";
 
 const register = (username, email, password) => {
