@@ -1,6 +1,10 @@
 {
   "name": "vwnepal-ui",
+  "description": "Volkswagen Nepal Chatbot Interface",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.19.3"
+  },
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
