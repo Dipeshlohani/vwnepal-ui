@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:3600/";
+const API_URL = "https://vwnepal-backend.herokuapp.com/"
+// const API_URL = "http://localhost:3600/";
 
 const getPublicContent = () => {
     return axios.get(API_URL + "all");
