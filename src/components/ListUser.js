@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { BsPencilSquare, BsXSquare, BsArrowRepeat, BsPlus } from "react-icons/bs";
 
 import Table from "./Table";
 import UserService from "../services/user.service";
@@ -23,36 +22,19 @@ const ListUser = () => {
         );
     }, []);
 
-    let handleEdit = () => {
-
-    }
-
-    let handleDelete = () => {
-
-    }
     const columns = useMemo(
         () => [
             {
                 Header: "Username",
-                columns: [
-                    {
-                        accessor: "username"
-                    },
-                ]
+                accessor: "username"
             },
             {
                 Header: "Email",
-                columns: [
-                    {
-                        accessor: "email"
-                    }]
+                accessor: "email"
             },
             {
                 Header: "Id",
-                columns: [
-                    {
-                        accessor: "_id"
-                    }]
+                accessor: "_id"
             },
         ]
     )

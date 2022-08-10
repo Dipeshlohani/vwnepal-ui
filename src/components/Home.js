@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsPencilSquare, BsXSquare, BsArrowRepeat, BsPlus } from "react-icons/bs";
+import { BsPencilSquare, BsXSquare, BsArrowRepeat, BsPlusLg } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import EventBus from "../common/EventBus";
-
 
 import Table from "./Table";
 import UserService from "../services/user.service";
@@ -13,12 +14,13 @@ const Home = (props) => {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("");
 
+    const { isLoggedIn } = useSelector((state) => state.auth);
+
     let navigate = useNavigate();
 
     useEffect(() => {
         UserService.getDocuments().then(
             (response) => {
-                console.log(response.data);
                 setContent(response.data);
             },
             (error) => {
@@ -39,35 +41,30 @@ const Home = (props) => {
         () => [
             {
                 Header: "Question",
-                columns: [
-                    {
-                        accessor: "question"
-                    },
-                ]
+                accessor: "question"
             },
             {
                 Header: "Answers",
-                columns: [
-                    {
-                        accessor: "answer"
-                    }]
+                accessor: "answer",
+                maxWidth: 250,
+                minWidth: 200,
+                width: 200,
             },
             {
                 Header: "Actions",
-                columns: [
-                    {
-                        Cell: row => (
-                            <div className="btn-group">
-                                <button type="button" className="btn " onClick={e => handleEdit(row.row.original)}><BsPencilSquare /></button>
-                                <button type="button" className="btn " onClick={e => handleDelete(row.row.original)}><BsXSquare /></button>
-                            </div>
-                        ),
-                        id: "_id"
-                    },
-                ]
+                Cell: row => (
+                    <div className="btnGroup">
+                        <button type="button" className="btn " onClick={e => handleEdit(row.row.original)}><BsPencilSquare /></button>
+                        <button type="button" className="btn " onClick={e => handleDelete(row.row.original)}><BsXSquare /></button>
+                    </div>
+                ),
+                maxWidth: 80,
+                minWidth: 40,
+                width: 40,
+                // id: "_id"
             }
         ]
-    )
+       , )
 
     let handleEdit = (row) => {
         let path = `/document/${row?._id}`;
@@ -86,21 +83,21 @@ const Home = (props) => {
         navigate("/document/new");
     }
 
-    let uploadDocument = async (event) => {
-        setLoading(true);
-        const file = event.target.files[0];
-        if (event.target.files[0]) {
-            let formData = new FormData();
-            formData.append('file', file);
-            let doc = await UserService.uploadDocument(formData);
+    // let uploadDocument = async (event) => {
+    //     setLoading(true);
+    //     const file = event.target.files[0];
+    //     if (event.target.files[0]) {
+    //         let formData = new FormData();
+    //         formData.append('file', file);
+    //         let doc = await UserService.uploadDocument(formData);
 
-            // console.log([...content, ...doc?.data?.document], content, '=============doc here -------------------------')
-            setLoading(false);
-            setMessage("Successfullly Uploaded.");
-            window.location.reload();
-            setContent([...content, ...doc?.data?.document]);
-        }
-    }
+    //         // console.log([...content, ...doc?.data?.document], content, '=============doc here -------------------------')
+    //         setLoading(false);
+    //         setMessage("Successfullly Uploaded.");
+    //         window.location.reload();
+    //         setContent([...content, ...doc?.data?.document]);
+    //     }
+    // }
 
     let syncToDialogflow = () => {
         setLoading(true);
@@ -128,6 +125,10 @@ const Home = (props) => {
         );
     }
 
+    if (!isLoggedIn) {
+        return <Navigate to="/login" />;
+    }
+
     return (
         <div className="container">
             {message && (
@@ -141,10 +142,8 @@ const Home = (props) => {
                 {loading ? (
                     <span className="spinner-border spinner-border-sm"></span>
                 ) : <div>
-                    <button className="btn btn-outline-dark  me-1" onClick={addDocument}>Add Document <BsPlus /></button>
-                    <input size="sm" type="file" className="btn btn-outline-dark  me-1" onChange={uploadDocument} name="file" />
-                    <button className="btn btn-dark float-end  mr-1" onClick={syncToDialogflow}>Sync <BsArrowRepeat /></button>
-                    {/* Upload Document <BsPlus /></input> */}
+                    <button className="btn btn-outline-dark  me-1" onClick={addDocument} name="Add questionnaire"><BsPlusLg /></button>
+                    <button className="btn btn-outline-dark float-end  mr-1" onClick={syncToDialogflow}>Sync <BsArrowRepeat /></button>
                     <br />
                     <br />
                     <Table basic='very' data={content} columns={columns} />

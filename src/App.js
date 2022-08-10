@@ -31,7 +31,6 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(currentUser)
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));

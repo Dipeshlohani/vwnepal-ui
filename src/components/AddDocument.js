@@ -8,6 +8,7 @@ import EventBus from "../common/EventBus";
 
 const AddDocument = (props) => {
     const [content, setContent] = useState({ question: "", answer: "", img_url: "", link: "" });
+    const [message, setMessage] = useState("");
     const [disabledStatus, setDisabledStatus] = useState({ img_url: false, link: false });
     const [loading, setLoading] = useState(false);
 
@@ -18,13 +19,31 @@ const AddDocument = (props) => {
     // });
     const handleChange = e => {
         const { name, value } = e.target;
-        console.log(name, value)
         if (name === 'img_url') setDisabledStatus({ link: true })
         if (name === 'link') setDisabledStatus({ img_url: true })
         setContent(prevState => ({
             ...prevState,
             [name]: value
         }));
+    }
+
+    let uploadDocument = async (event) => {
+        setLoading(true);
+        const file = event.target.files[0];
+        if (event.target.files[0]) {
+            let formData = new FormData();
+            formData.append('file', file);
+            let doc = await UserService.uploadDocument(formData);
+            if (doc) {
+                // console.log([...content, ...doc?.data?.document], content, '=============doc here -------------------------')
+                setLoading(false);
+                setMessage("Successfullly Uploaded.");
+                // window.location.reload();
+                navigate("/home")
+            }
+            setMessage("Error Uploading document.")
+            // setContent([...content, ...doc?.data?.document]);
+        }
     }
 
     const handleAdd = () => {
@@ -51,13 +70,24 @@ const AddDocument = (props) => {
     }
     return (
         <div className="container">
-            <header className="jumbotron">
-                <h3>
-                    Add&nbsp;
-                    <small className="text-muted">Document</small>
-                </h3>
-
-            </header>
+            {message && (
+                <div className="form-group">
+                    <div className="alert alert-danger" role="alert">
+                        {message}
+                    </div>
+                </div>
+            )}
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm">
+                        <h3 className="">Add&nbsp;<small className="text-muted">questionnaire</small></h3>
+                    </div>
+                    <div className="col-sm">
+                        <input size="sm" type="file" className="btn btn-outline-dark  me-1 px-8" onChange={uploadDocument} name="file" />
+                        <small className="text-sm">Upload .csv file format</small>
+                    </div>
+                </div>
+            </div>
             <small className="text-muted">Note: Keep question and answers short for better user experience.</small>
             <Formik
                 initialValues={content}

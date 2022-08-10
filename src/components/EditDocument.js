@@ -19,7 +19,6 @@ const EditDocument = (props) => {
     useEffect(() => {
         UserService.getDocument(id).then(
             (response) => {
-                console.log(response.data, '=============')
                 setContent(response.data);
             },
             (error) => {
@@ -46,10 +45,8 @@ const EditDocument = (props) => {
         setContent({ ...content, answer: e.target.value })
     }
     const handleEdit = () => {
-        console.log("==========")
         UserService.editDocument(id, content).then(
             (response) => {
-                console.log(response.data, '=============')
                 setContent(response.data);
                 navigate("/")
             },

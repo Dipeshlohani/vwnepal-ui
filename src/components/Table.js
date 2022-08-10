@@ -18,7 +18,10 @@ export default function Table({ columns, data }) {
       - react-table doesn't have UI, it's headless. We just need to put the react-table props from the Hooks, and it will do its magic automatically
     */
     return (
-        <table style={{ "borderWidth": "1px", 'borderColor': "#aaaaaa", 'borderStyle': 'solid' }} {...getTableProps()}>
+        <table style={{
+            "borderWidth": "1px", 'borderColor': "#aaaaaa", 'borderStyle': 'solid', "width": "100%", "tableLayout": "fixed",
+            "overflowWrap": "break-word"
+        }} {...getTableProps()}>
             <thead style={{
                 borderBottom: 'solid black',
                 color: 'black',
@@ -26,8 +29,9 @@ export default function Table({ columns, data }) {
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th style={{
-                            }} {...column.getHeaderProps()}>{column.render("Header")}</th>
+                            <th style={{}} {...column.getHeaderProps({
+                                style: { minWidth: column.minWidth, width: column.width, padding: '10px' }
+                            })}>{column.render("Header")}</th>
                         ))}
                     </tr>
                 ))}
@@ -39,7 +43,8 @@ export default function Table({ columns, data }) {
                         <tr {...row.getRowProps()}>
                             {row.cells.map(cell => {
                                 return <td {...cell.getCellProps()} style={{
-                                    padding: '10px',
+                                    padding: '5px',
+
                                     border: 'solid 1px gray',
                                 }}>{cell.render("Cell")}</td>;
                             })}
