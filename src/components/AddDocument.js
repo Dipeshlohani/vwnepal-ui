@@ -7,7 +7,7 @@ import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 
 const AddDocument = (props) => {
-    const [content, setContent] = useState({ question: "", answer: "", img_url: "", link: "" });
+    const [content, setContent] = useState({ question: "", answer: "", img_url: "", link: "", message: "" });
     const [message, setMessage] = useState("");
     const [disabledStatus, setDisabledStatus] = useState({ img_url: false, link: false });
     const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ const AddDocument = (props) => {
                     error.message ||
                     error.toString();
 
-                setContent(_content);
+                setContent({ ...content, message: _content });
 
                 if (error.response && error.response.status === 401) {
                     EventBus.dispatch("logout");
@@ -74,6 +74,13 @@ const AddDocument = (props) => {
                 <div className="form-group">
                     <div className="alert alert-danger" role="alert">
                         {message}
+                    </div>
+                </div>
+            )}
+            {content?.message && (
+                <div className="form-group">
+                    <div className="alert alert-danger" role="alert">
+                        {content.message}
                     </div>
                 </div>
             )}

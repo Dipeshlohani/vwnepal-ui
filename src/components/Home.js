@@ -64,7 +64,7 @@ const Home = (props) => {
                 // id: "_id"
             }
         ]
-       , )
+    )
 
     let handleEdit = (row) => {
         let path = `/document/${row?._id}`;
@@ -119,8 +119,9 @@ const Home = (props) => {
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-
+                setLoading(false);
                 setContent(_content);
+                setMessage(_content);
             }
         );
     }
