@@ -3,7 +3,7 @@
   "description": "Volkswagen Nepal Chatbot Interface",
   "version": "0.1.0",
   "engines": {
-    "node": "14.20.0"
+    "node": "14.19.3"
   },
   "private": true,
   "dependencies": {
