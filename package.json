@@ -3,7 +3,7 @@
   "description": "Volkswagen Nepal Chatbot Interface",
   "version": "0.1.0",
   "engines": {
-    "node": "14.19.3"
+    "node": "14.20.0"
   },
   "private": true,
   "dependencies": {
@@ -27,7 +27,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
