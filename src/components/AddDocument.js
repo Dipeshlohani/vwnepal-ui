@@ -1,7 +1,6 @@
 import React, { useState, } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
@@ -13,10 +12,6 @@ const AddDocument = (props) => {
     const [loading, setLoading] = useState(false);
 
     let navigate = useNavigate();
-    // const validationSchema = Yup.object().shape({
-    //     question: Yup.string().required("This field is required!"),
-    //     answer: Yup.string().required("This field is required!"),
-    // });
     const handleChange = e => {
         const { name, value } = e.target;
         if (name === 'img_url') setDisabledStatus({ link: true })
@@ -35,14 +30,11 @@ const AddDocument = (props) => {
             formData.append('file', file);
             let doc = await UserService.uploadDocument(formData);
             if (doc) {
-                // console.log([...content, ...doc?.data?.document], content, '=============doc here -------------------------')
                 setLoading(false);
                 setMessage("Successfullly Uploaded.");
-                // window.location.reload();
                 navigate("/home")
             }
             setMessage("Error Uploading document.")
-            // setContent([...content, ...doc?.data?.document]);
         }
     }
 
