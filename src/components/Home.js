@@ -29,7 +29,7 @@ const Home = (props) => {
                     error.message ||
                     error.toString();
 
-                setContent(_content);
+                setMessage(_content);
                 if (error.response && error.response.status === 401) {
                     EventBus.dispatch("logout");
                 }
@@ -147,7 +147,11 @@ const Home = (props) => {
                     <button className="btn btn-outline-dark float-end  mr-1" onClick={syncToDialogflow}>Sync <BsArrowRepeat /></button>
                     <br />
                     <br />
-                    <Table basic='very' data={content} columns={columns} />
+                    {
+                        content
+                        &&
+                        <Table basic='very' data={content} columns={columns} />
+                    }
                 </div>}
             </header>
         </div>
